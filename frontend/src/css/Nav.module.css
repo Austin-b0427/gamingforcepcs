@@ -1,0 +1,83 @@
+/* Nav.module.css */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #004aad; /* Logo background color */
+    color: white; /* Default text color */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.navLinks {
+    display: flex;
+    gap: 20px;
+}
+
+.navbutton {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.navbutton:hover {
+    background-color: white;
+    color: #004aad; /* Logo blue for hover */
+    transform: scale(1.05);
+}
+
+.navbutton:focus {
+    outline: none;
+    box-shadow: 0px 0px 4px white;
+}
+
+
+/* Nav.module.css */
+.dropdownContainer {
+    position: relative; /* Ensures the dropdown is positioned relative to this container */
+    
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: 100%; /* Position below the parent button */
+    left: 1;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensure it appears above other elements */
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+    /*margin: 5px;*/
+}
+
+.dropdownMenu button {
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    text-align: left;
+    font-size: 0.9rem;
+    color: #004aad; /* Match the logo color */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.dropdownMenu button:hover {
+    background-color: #f0f0f0; /* Light gray for hover effect */
+}

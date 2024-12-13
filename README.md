@@ -53,7 +53,7 @@ cd gamingforcepcs
    npm install
    ```
 3. Create a `.env` file and add the following:
-   ```
+   ```bash
    PORT=5000
    MONGO_URI=mongodb://localhost:27017/gamingforcepcs
    ```
