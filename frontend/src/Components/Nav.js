@@ -14,7 +14,7 @@ function Nav() {
             </div>
             <div className={navStyles.navLinks}>
                 <button className={navStyles.navbutton} onClick={() => navigate('/')}>Home</button>
-                <button className={navStyles.navbutton} onClick={() => navigate('/gaming-pcs')}>Gaming PCs</button>
+                <button className={navStyles.navbutton} onClick={() => navigate('/gaming-pcs')}>--</button>
                 <button className={navStyles.navbutton} onClick={() => navigate('/custom')}>Custom</button>
                 <button className={navStyles.navbutton} onClick={() => navigate('/accessories')}>Accessories</button>
                 <div

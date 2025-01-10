@@ -1,58 +1,63 @@
-// Require express
+// Require and use express
 const express = require('express');
 const app = express();
-// Load environment variables from .env file
-require('dotenv').config();
 
-//Require mongoose
-const mongoose = require('mongoose')
+// Dotenv
+require('dotenv').config(); // Load environment variables
+const port = process.env.PORT || 3000;
 
-const mongo_uri = process.env.MONGO_URI
-const port = process.env.PORT
+let hasError = false;
 
-app.use(express.json()); // Middleware to for JSON in request body
+// Cors setup
+const cors = require("cors");
+app.use(cors({
+  origin: "http://73.83.92.175:3000" // Allow only your React app
+}));
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
+// Express json middleware
+app.use(express.json());
+
+// Middleware to log errors and set the error flag
+app.use((err, req, res, next) => {
+  hasError = true; // Set the error flag
+  console.error('Error:', err.message);
+  res.status(500).json({ error: 'Internal Server Error' });
 });
 
-app.get('/', (req, res) => {
-  res.json({message: "Hello, World!"})
-})
+// Example route to simulate error
+app.get('/cause-error', (req, res, next) => {
+  next(new Error('Something went wrong!'));
+  hasError = true; // Set the error flag
+});
 
-// Backend
-app.get('/api/data', (req, res) => {
-  res.json({
-    mssg: 'Hello from the backend!',
-    user: {
-      id: 1,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-    },
-    isAuthenticated: true,
-    items: [
-      { id: 103, name: 'Item 1', price: 105 },
-      { id: 106, name: 'Item 3', price: 50 },
-      { id: 132, name: 'Item 4', price: 40 },
-      { id: 129, name: 'Item 2', price: 20.0 }
-    ],
-    timestamp: new Date(),
+// Routes
+const gamingPcRoutes = require('./routes/gamingpcs');
+app.use('/api/gamingpcs', gamingPcRoutes);
+
+// Root route
+app.get('/', (req, res) => {
+  res.json({ 
+    error: hasError ? "An error occurred!" : "No errors.",
   });
 });
 
-// Connect to mongo and start web server
-mongoose.connect(mongo_uri)
-  .then(() => {
-    console.log("Connected to mongodb")
-    // Start web server
-    app.listen(port, () => {
-      console.log(`App listening on port ${port}`)
-    })
-  })
-  .catch((error) => {
-    console.error("Error connecting to MongoDB:", error);
+// Endpoint to check if there is a current error
+app.get('/status', (req, res) => {
+  res.json({
+    hasError,
+  });
 
-  })
+  // Reset the error flag after reporting
+  hasError = false;
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
+});
+
+// Start web server
+app.listen(port, () => {
+  console.log(`App listening on port ${port}`);
+});
